@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Run this app with `python app.py` and
+# Run this app with `python main.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
 import dash
@@ -40,7 +40,7 @@ app.layout = html.Div([
 
     ], style={'width': '10%', 'margin-left': '45%'}),
 
-    # Create combination of bar chart
+    # Bar chart
     html.Div([
         html.Br(),
         dcc.Graph(id='bar_line_1',
@@ -48,7 +48,7 @@ app.layout = html.Div([
 
     ], style={'margin-left': '1.4%', 'width': '50%', 'display': 'inline-block'}),
 
-    # Create combination of bar chart and line chart
+    # Bar chart e Line chart
     html.Div([
         html.Br(),
         dcc.Graph(id='bar_line_4',
@@ -56,7 +56,7 @@ app.layout = html.Div([
 
     ],style={'width': '48.6%', 'display': 'inline-block', 'float': 'right'}),
 
-    # Create horizontal bar chart 1
+    # Horizontal Bar chart 1
     html.Div([
         html.Br(),
         dcc.Graph(id='top_10_1',
@@ -64,7 +64,7 @@ app.layout = html.Div([
 
     ], style={'margin-left': '1.4%', 'width': '50%', 'display': 'inline-block'}),
 
-    # Create horizontal bar chart 2
+    # Horizontal Bar chart 2
     html.Div([
         html.Br(),
         dcc.Graph(id='top_10_2',
@@ -75,12 +75,11 @@ app.layout = html.Div([
 ], style={'background-color': '#ffffff'})
 
 
-# Create combination of bar chart
-#4) Identificar os valores de mensalidades dos financiamentos concedidos em ordem decrescente para a região Nordeste no mês de setembro de 2019. Além da mensalidade, devem ser apresentados os respectivos cursos, instituição de ensino superior, Estado, município.
+# Bar chart
+#4) Identificar os valores de mensalidades dos financiamentos concedidos em ordem decrescente para a região Nordeste no mês de setembro de 2019.
 @app.callback(Output('bar_line_1', 'figure'),
               [Input('w_estado', 'value')])
 def update_graph(w_estado):
-    # Data for bar
     fig1 = tab1.groupby(['curso', 'est'])['val'].sum().reset_index()
 
     return {
@@ -112,7 +111,7 @@ def update_graph(w_estado):
             width=780,
             height=520,
             title={
-                'text': 'Mensalidades dos financiamentos: Estado (' + (w_estado) + ')',
+                'text': 'Valores de mensalidades dos financiamentos: Estado (' + (w_estado) + ')',
                 'y': 0.93,
                 'x': 0.43,
                 'xanchor': 'center',
@@ -129,11 +128,11 @@ def update_graph(w_estado):
                        showgrid=True,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=8,
                            color='rgb(17, 37, 239)'
                        )
 
@@ -145,11 +144,11 @@ def update_graph(w_estado):
                        showgrid=True,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=10,
                            color='rgb(17, 37, 239)'
                        )
                        ),
@@ -166,7 +165,7 @@ def update_graph(w_estado):
                             color='#000000')),
 
             legend_title_font_color="green",
-            uniformtext_minsize=12,
+            uniformtext_minsize=10,
             uniformtext_mode='hide',
 
         )
@@ -174,14 +173,14 @@ def update_graph(w_estado):
     }
 
 
-# Create combination of bar chart and line chart
-#5) Identificar as instituições de ensino superior da região nordeste no mês de setembro de 2019 com maior número de alunos contemplados com o financiamento. Além das instituições de ensino superior e a quantidade de alunos contemplados, devem ser apresentados os respectivos estados e municípios das instituições de ensino superior.
+# Bar chart e Line chart
+#5) Identificar as instituições de ensino superior da região nordeste no mês de setembro de 2019 com maior número de alunos contemplados com o financiamento.
 @app.callback(Output('bar_line_4', 'figure'),
               [Input('w_estado', 'value')])
 def update_graph(w_estado):
-# Data for bar
+# Dados Bar
     fig2_1 = tab2.groupby(['est', 'no_ies'])['mun'].sum().reset_index()
-# Data for line
+# Dados Line
     fig2_2 = tab2.groupby(['est', 'no_ies'])['qtd'].sum().reset_index()
 
     return {
@@ -189,7 +188,7 @@ def update_graph(w_estado):
                         y=fig2_1[fig2_1['est'] == w_estado]['mun'],
                         text=fig2_1[fig2_1['est'] == w_estado]['mun'],
                         name='Municipios',
-                        texttemplate='%{text:.2s}',
+                        texttemplate='%{text}',
                         textposition='auto',
                         marker = dict(color='rgb(11, 220, 239)'),
                         yaxis='y1',
@@ -231,7 +230,7 @@ def update_graph(w_estado):
 
              hovermode='x',
 
-             xaxis=dict(title='<b>Estado</b>',
+             xaxis=dict(title='<b>Instituições</b>',
                         tick0=0,
                         dtick=1,
                         color='rgb(230, 34, 144)',
@@ -239,11 +238,11 @@ def update_graph(w_estado):
                         showgrid=True,
                         showticklabels=True,
                         linecolor='rgb(104, 204, 104)',
-                        linewidth=2,
+                        linewidth=1,
                         ticks='outside',
                         tickfont=dict(
                             family='Arial',
-                            size=12,
+                            size=5,
                             color='rgb(17, 37, 239)'
                         )
 
@@ -255,11 +254,11 @@ def update_graph(w_estado):
                         showgrid=True,
                         showticklabels=True,
                         linecolor='rgb(104, 204, 104)',
-                        linewidth=2,
+                        linewidth=1,
                         ticks='outside',
                         tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=5,
                            color='rgb(17, 37, 239)'
                         )
 
@@ -270,11 +269,11 @@ def update_graph(w_estado):
                          showgrid=False,
                          showticklabels=True,
                          linecolor='rgb(104, 204, 104)',
-                         linewidth=2,
+                         linewidth=1,
                          ticks='outside',
                          tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=10,
                            color='rgb(17, 37, 239)'
                          )
 
@@ -300,8 +299,8 @@ def update_graph(w_estado):
     }
 
 
-# Create horizontal bar chart 1
-#6) Identificar os estados da região Nordeste com maior número de alunos contemplados com o financiamento no mês de setembro de 2019. Além dos cursos e da quantidade de alunos contemplados, devem ser apresentados os respectivos estados e municípios.
+# Horizontal Bar chart 1
+#6.1) Identificar os estados da região Nordeste com maior número de alunos contemplados com o financiamento no mês de setembro de 2019.
 @app.callback(Output('top_10_1', 'figure'),
               [Input('w_estado', 'value')])
 def update_graph(w_estado):
@@ -329,8 +328,6 @@ def update_graph(w_estado):
         'layout': go.Layout(
             width=780,
             height=520,
-            # plot_bgcolor='rgb(250, 242, 242)',
-            # paper_bgcolor='rgb(250, 242, 242)',
             title={
                 'text': 'Os estados com o maior número de alunos contemplados',
                 'y': 0.93,
@@ -349,28 +346,28 @@ def update_graph(w_estado):
                        showgrid=True,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=10,
                            color='rgb(17, 37, 239)'
                        )
 
                        ),
 
-            yaxis=dict(title='<b>Estado</b>',
+            yaxis=dict(title='<b>Estados</b>',
                        autorange='reversed',
                        color='rgb(230, 34, 144)',
                        showline=True,
                        showgrid=False,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=10,
                            color='rgb(17, 37, 239)'
                        )
 
@@ -380,8 +377,8 @@ def update_graph(w_estado):
     }
 
 
-# Create horizontal bar chart 2
-#6) Identificar os 10 cursos da região Nordeste com maior número de alunos contemplados com o financiamento no mês de setembro de 2019. Além dos cursos e da quantidade de alunos contemplados, devem ser apresentados os respectivos estados e municípios.
+# Horizontal Bar chart 2
+#6.2) Identificar os 10 cursos da região Nordeste com maior número de alunos contemplados com o financiamento no mês de setembro de 2019.
 @app.callback(Output('top_10_2', 'figure'),
               [Input('w_estado', 'value')])
 def update_graph(w_estado):
@@ -409,8 +406,6 @@ def update_graph(w_estado):
         'layout': go.Layout(
             width=780,
             height=520,
-            # plot_bgcolor='rgb(250, 242, 242)',
-            # paper_bgcolor='rgb(250, 242, 242)',
             title={
                 'text': 'Os 10 cursos com o maior número de alunos contemplados',
                 'y': 0.93,
@@ -429,28 +424,28 @@ def update_graph(w_estado):
                        showgrid=True,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=10,
                            color='rgb(17, 37, 239)'
                        )
 
                        ),
 
-            yaxis=dict(title='<b>Curso</b>',
+            yaxis=dict(title='<b>Cursos</b>',
                        autorange='reversed',
                        color='rgb(230, 34, 144)',
                        showline=True,
                        showgrid=False,
                        showticklabels=True,
                        linecolor='rgb(104, 204, 104)',
-                       linewidth=2,
+                       linewidth=1,
                        ticks='outside',
                        tickfont=dict(
                            family='Arial',
-                           size=12,
+                           size=7,
                            color='rgb(17, 37, 239)'
                        )
 
